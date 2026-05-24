@@ -27,7 +27,8 @@ $(BUILD_DIR)/%.c.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .clangd :
-	printf "CompleFlags:\n\tAdd: [-I$$PWD/include]" > .clangd
+	printf "CompileFlags:\n\t\
+		Add: [-I$$PWD/dependencies/include]" > .clangd
 
 .PHONY: clean
 clean:
