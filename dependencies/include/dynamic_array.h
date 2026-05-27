@@ -29,7 +29,7 @@ typedef struct {
 
 #define da_push(arr, value) do{                                                  \
     if(!arr){                                                                    \
-        Header *h = malloc(sizeof(*h) + (sizeof(int) * INIT_CAP));               \
+        Header *h = malloc(sizeof(*h) + (sizeof(value) * INIT_CAP));               \
         h->capacity=INIT_CAP;                                                    \
         h->length=0;                                                             \
         (arr) = (typeof(arr)) (h+1);                                             \
