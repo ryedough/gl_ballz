@@ -1,8 +1,9 @@
 TARGET_EXEC := app
 BUILD_DIR := build
-SRC_DIR := src
-STATIC_LIBS := glfw3 m GL
+SRC_DIR := src dependencies/src
+STATIC_LIBS := glfw3 m GL obj_loader
 INCLUDE_DIRS := dependencies/include
+LIB_DIR := dependencies/lib
 
 STATIC_LIBS := $(addprefix -l, $(STATIC_LIBS))
 
@@ -12,6 +13,7 @@ DEPS := $(OBJS:.o=.d)
 
 # INCLUDE_DIRS := $(shell find $(SRC_DIR) -type d)
 INCLUDE_FLAGS := $(addprefix -I, $(INCLUDE_DIRS))
+LIB_DIR := $(addprefix -L, $(LIB_DIR))
 
 CFLAGS := $(INCLUDE_FLAGS) -MMD -MP
 
@@ -20,7 +22,7 @@ all : $(BUILD_DIR)/$(TARGET_EXEC) .clangd
 	./$(BUILD_DIR)/$(TARGET_EXEC)
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS) $(STATIC_LIBS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS) $(STATIC_LIBS) $(LIB_DIR)
 
 $(BUILD_DIR)/%.c.o: %.c
 	mkdir -p $(dir $@)

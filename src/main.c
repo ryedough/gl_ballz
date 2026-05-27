@@ -1,6 +1,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <stdbool.h>
+#include "model.h"
 
 int main(){
     GLFWwindow* window;
@@ -21,10 +23,18 @@ int main(){
         glfwTerminate();
         return -1;
     }
-    glClearColor(0.0f, 0.2f, 0.4f, .0f);
+    Model *basic = model_create("./shaders/.vert", "./shaders/.frag", "./assets/ball.obj");
+    if(!basic){
+        glfwTerminate();
+        return -1;
+    }
 
+    glClearColor(0.0f, 0.2f, 0.4f, .0f);
     while(!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT);
+        glUseProgram(basic->shader);
+        glBindVertexArray(basic->vao);
+        glDrawElements(GL_TRIANGLES, basic->n_indices, GL_UNSIGNED_INT, 0);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
